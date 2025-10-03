@@ -9,7 +9,7 @@ TOKEN = 'MTQxNTk0MzI5MzMyMTM1MTE5OA.GQpaVJ.Q5XzHOGDtMnLm4DKjOlAgm9cw9uJGTWqCqGuL
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix="!", intents=intents)
+bot = commands.Bot(command_prefix="!", intents=intents)s.
 
 @bot.event
 async def on_ready():
