@@ -2,9 +2,16 @@ import os
 import discord
 from discord.ext import commands
 import aiohttp
+from dotenv import load_dotenv  # ต้องติดตั้ง python-dotenv ก่อน: pip install python-dotenv
+
+# โหลดไฟล์ .env
+load_dotenv()
 
 WEBHOOK_URL = 'https://n8n.cynlive.com/webhook/agent-ai/discord'
-TOKEN = 'MTQxNTk0MzI5MzMyMTM1MTE5OA.GQpaVJ.Q5XzHOGDtMnLm4DKjOlAgm9cw9uJGTWqCqGuLk'
+TOKEN = os.getenv("DISCORD_TOKEN")
+
+if not TOKEN:
+    raise ValueError("โปรดตั้งค่า environment variable DISCORD_TOKEN ในไฟล์ .env")
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -32,7 +39,7 @@ async def on_message(message):
         "content": message.content
     }
 
-    # เพิ่มเช็ค username
+    # เช็ค username
     if message.author.name not in ["Agent Stock", "Yumi"]:
         try:
             async with aiohttp.ClientSession() as session:
@@ -45,6 +52,5 @@ async def on_message(message):
             print(f"❌ Error sending data: {e}")
 
     await bot.process_commands(message)
-
 
 bot.run(TOKEN)
